@@ -124,6 +124,15 @@
             background: #fff;
         }
 
+        .preview video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
         .preview .soon {
             position: absolute;
             inset: 0;
@@ -345,6 +354,7 @@
         ADD PROJECTS HERE — one { ... } per project.
         builder: initials only (e.g. "M.K.")
         url:     the live site (e.g. Netlify). Leave "" to show "Coming soon".
+        video:   optional — a video file (e.g. "videos/demo.mp4") shown as the preview instead of the live site.
     -->
     <script>
         const PROJECTS = [
@@ -354,6 +364,14 @@
                 tag: "Creative Tool",
                 description: "Type in a company name and get animated logo options you can play as a short intro clip. There's an ad builder too.",
                 url: "https://clipstudio-omega.vercel.app"
+            },
+            {
+                title: "Golden Brown Web",
+                builder: "J.B.",
+                tag: "Web Design Business",
+                description: "A web design business that rebuilds sites for local shops. Watch the before & after for Freshly Baked Eatery.",
+                url: "https://golden-brown-web.vercel.app",
+                video: "videos/golden-brown-web.mp4"
             }
         ];
 
@@ -365,7 +383,18 @@
 
             const preview = document.createElement("div");
             preview.className = "preview";
-            if (p.url) {
+            if (p.video) {
+                const video = document.createElement("video");
+                video.src = p.video;
+                video.controls = true;
+                video.muted = true;
+                video.loop = true;
+                video.autoplay = true;
+                video.playsInline = true;
+                video.preload = "metadata";
+                video.setAttribute("aria-label", "Video of " + p.title);
+                preview.appendChild(video);
+            } else if (p.url) {
                 const frame = document.createElement("iframe");
                 frame.src = p.url;
                 frame.title = "Preview of " + p.title;
